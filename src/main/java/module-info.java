@@ -5,5 +5,6 @@
 module javafx.scaletests.main {
     requires eu.mihosoft.scaledfx;
     requires javafx.controls;
+    requires javafx.media;
     exports javafx.scaletests;
 }

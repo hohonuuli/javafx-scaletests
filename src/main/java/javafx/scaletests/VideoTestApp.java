@@ -8,7 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.media.*;
+import javafx.scene.media.Media;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
@@ -28,7 +28,8 @@ public class VideoTestApp extends Application {
 //
 //        var mediaPlayer = new MediaPlayer
 //        var media = new Media
-
+//        Media media = new Media();
+//
 
 
         Image image = new Image("http://dsg.mbari.org/images/dsg/external/Mollusca/Cephalopoda/Opisthoteuthis_spA_01.png");

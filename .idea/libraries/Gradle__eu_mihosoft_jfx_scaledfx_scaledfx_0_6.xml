@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: eu.mihosoft.jfx.scaledfx:scaledfx:0.6">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/eu.mihosoft.jfx.scaledfx/scaledfx/0.6/c721c27da20d75c1fd00496fbc0e122f51fbf892/scaledfx-0.6.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/eu.mihosoft.jfx.scaledfx/scaledfx/0.6/d8bf0c9048f188fcff9efe17b93f7ef716815ed6/scaledfx-0.6-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

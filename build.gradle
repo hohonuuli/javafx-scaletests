@@ -18,26 +18,8 @@ repositories {
     maven { url "https://dl.bintray.com/miho/ScaledFX" }
 }
 
-//
-//def currentOS = org.gradle.internal.os.OperatingSystem.current()
-//def platform
-//if (currentOS.isWindows()) {
-//    platform = 'win'
-//} else if (currentOS.isLinux()) {
-//    platform = 'linux'
-//} else if (currentOS.isMacOsX()) {
-//    platform = 'mac'
-//}
-//
-//def javafxVersion = "11.0.2"
 
 dependencies {
-    implementation "org.openjfx:javafx-base:${javafxVersion}:${platform}"
-    implementation "org.openjfx:javafx-controls:${javafxVersion}"
-    implementation "org.openjfx:javafx-controls:${javafxVersion}:${platform}"
-    implementation "org.openjfx:javafx-fxml:${javafxVersion}:${platform}"
-    implementation "org.openjfx:javafx-graphics:${javafxVersion}:${platform}"
-    implementation "org.openjfx:javafx-media:${javafxVersion}:${platform}"
     implementation 'eu.mihosoft.jfx.scaledfx:scaledfx:0.6'
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.codehaus.groovy:groovy-all:2.5.4'
@@ -45,6 +27,7 @@ dependencies {
 }
 
 javafx {
+    version = "12"
     modules = [ 'javafx.controls', 'javafx.media', 'javafx.fxml']
 }
 
