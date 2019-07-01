@@ -7,4 +7,5 @@ module javafx.scaletests.main {
     requires javafx.controls;
     requires javafx.media;
     exports javafx.scaletests;
+    exports javafx.scaletests.layers;
 }

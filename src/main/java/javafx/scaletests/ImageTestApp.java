@@ -38,29 +38,26 @@ public class ImageTestApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        var image = new Image("http://dsg.mbari.org/images/dsg/external/Mollusca/Cephalopoda/Opisthoteuthis_spA_01.png");
+        var image = new Image(
+                "http://dsg.mbari.org/images/dsg/external/Mollusca/Cephalopoda/Opisthoteuthis_spA_01.png");
         var imageView = new ImageView(image);
         imageView.setPreserveRatio(true);
 
         var myCircle = new MyCircle(25, 25);
-        imageView.boundsInParentProperty().addListener((obs, oldv, newv) -> {
-            circle.setCenterX(newv.getMinX() + );
-        });
+//        imageView.boundsInParentProperty().addListener((obs, oldv, newv) -> {
+//            myCircle.setCenterX(newv.getMinX());
+//        });
 
-        AnchorPane anchorPane = new AnchorPane(circle);
+        AnchorPane anchorPane = new AnchorPane();
         anchorPane.prefWidthProperty().bind(imageView.fitWidthProperty());
         anchorPane.prefHeightProperty().bind(imageView.fitHeightProperty());
         anchorPane.translateXProperty().bind(imageView.xProperty());
         anchorPane.translateYProperty().bind(imageView.yProperty());
 
-
-
         StackPane stackPane = new StackPane(imageView, anchorPane);
         stackPane.setStyle("-fx-background-color: #000000");
 
-
-        ScalableContentPane scp =
-                new ScalableContentPane(stackPane);
+        ScalableContentPane scp = new ScalableContentPane(stackPane);
         scp.setAspectScale(true);
 
         primaryStage.setScene(new Scene(scp));
