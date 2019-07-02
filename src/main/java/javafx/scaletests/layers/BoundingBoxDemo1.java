@@ -20,24 +20,24 @@ public class BoundingBoxDemo1 extends Application {
         BoundingBox box2 = new BoundingBox(200, 100, 50, 73);
         box1.setColor(Color.DEEPSKYBLUE);
         pane.getChildren().addAll(box1.getShapes());
-        box1.getBoundingBoxRectangle()
-                .addEventHandler(MouseEvent.MOUSE_PRESSED, evt -> {
+        box1.getShapes().forEach(r ->
+                r.addEventHandler(MouseEvent.MOUSE_PRESSED, evt -> {
                     pane.getChildren().removeAll(box1.getShapes());
                     pane.getChildren().addAll(0, box1.getShapes());
                     box1.setColor(Color.ORANGE);
                     box2.setColor(Color.DEEPSKYBLUE);
-                });
+                }));
 
 
         box2.setColor(Color.DEEPSKYBLUE);
         pane.getChildren().addAll(box2.getShapes());
-        box2.getBoundingBoxRectangle()
-                .addEventHandler(MouseEvent.MOUSE_PRESSED, evt -> {
+        box2.getShapes().forEach(r ->
+                r.addEventHandler(MouseEvent.MOUSE_PRESSED, evt -> {
                     pane.getChildren().removeAll(box2.getShapes());
                     pane.getChildren().addAll(0, box2.getShapes());
                     box2.setColor(Color.ORANGE);
                     box1.setColor(Color.DEEPSKYBLUE);
-                });
+                }));
         Scene scene = new Scene(root);
         primaryStage.setWidth(500);
         primaryStage.setHeight(500);

@@ -10,6 +10,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class BoundingBox {
+
+    // TODO
     private double x;
     private double y;
     private double width;
@@ -72,8 +74,6 @@ public class BoundingBox {
     public Rectangle getBoundingBoxRectangle() {
         if (boundingBoxRectangle == null) {
             boundingBoxRectangle = new Rectangle(x, y, width, height);
-            boundingBoxRectangle.addEventHandler(MouseEvent.MOUSE_ENTERED,
-                    evt -> boundingBoxRectangle.toFront());
             boundingBoxRectangle.addEventHandler(MouseEvent.MOUSE_PRESSED,
                     mousePressedHandler);
             boundingBoxRectangle.addEventHandler(MouseEvent.MOUSE_DRAGGED,
@@ -110,9 +110,6 @@ public class BoundingBox {
                 .addListener((obs, oldv, newv) -> r.setY(newv.doubleValue() - offset));
         r.getStyleClass().add("mbari-bounding-box-control");
         r.setStrokeWidth(1);
-        r.addEventHandler(MouseEvent.MOUSE_ENTERED, evt -> r.toFront());
-        r.addEventHandler(MouseEvent.MOUSE_ENTERED,
-                evt -> r.toFront());
         r.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 mousePressedHandler);
         r.addEventHandler(MouseEvent.MOUSE_DRAGGED,
@@ -147,7 +144,6 @@ public class BoundingBox {
                 .addListener((obs, oldv, newv) -> r.setY(newv.doubleValue() - offset));
         b.widthProperty()
                 .addListener((obs, oldv, newv) -> r.setX(newv.doubleValue() + b.getX() - offset));
-        r.addEventHandler(MouseEvent.MOUSE_ENTERED, evt -> r.toFront());
         r.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 mousePressedHandler);
         r.addEventHandler(MouseEvent.MOUSE_DRAGGED,
@@ -217,7 +213,6 @@ public class BoundingBox {
                 .addListener((obs, oldv, newv) -> r.setX(newv.doubleValue() + b.getX() - offset));
         b.heightProperty()
                 .addListener((obs, oldv, newv) -> r.setY(b.getY() + newv.doubleValue()  - offset));
-        r.addEventHandler(MouseEvent.MOUSE_ENTERED, evt -> r.toFront());
         r.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 mousePressedHandler);
         r.addEventHandler(MouseEvent.MOUSE_DRAGGED,
