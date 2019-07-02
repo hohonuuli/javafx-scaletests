@@ -2,6 +2,7 @@ package javafx.scaletests.layers;
 
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
@@ -15,8 +16,6 @@ public class BoundingBox {
     private double height;
     private int offset = 5;
     private int square = offset * 2 + 1;
-
-
 
     private Rectangle boundingBoxRectangle;
     private List<Rectangle> controlPoints;
@@ -54,6 +53,14 @@ public class BoundingBox {
         this.height = height;
     }
 
+    public void setColor(Color color) {
+        Color fillColor = Color.color(color.getRed(), color.getGreen(), color.getBlue(), 0.1);
+        getShapes().forEach(r -> {
+            r.setStroke(color);
+            r.setFill(fillColor);
+        });
+    }
+
     public List<Rectangle> getShapes() {
         List<Rectangle> shapes = new ArrayList<>();
         shapes.add(getBoundingBoxRectangle());
@@ -65,8 +72,15 @@ public class BoundingBox {
     public Rectangle getBoundingBoxRectangle() {
         if (boundingBoxRectangle == null) {
             boundingBoxRectangle = new Rectangle(x, y, width, height);
-            boundingBoxRectangle.setOnMousePressed(mousePressedHandler);
-            boundingBoxRectangle.setOnMouseDragged(mouseDraggedHandler);
+            boundingBoxRectangle.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                    evt -> boundingBoxRectangle.toFront());
+            boundingBoxRectangle.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                    mousePressedHandler);
+            boundingBoxRectangle.addEventHandler(MouseEvent.MOUSE_DRAGGED,
+                    mouseDraggedHandler);
+            boundingBoxRectangle.getStyleClass().add("mbari-bounding-box");
+            boundingBoxRectangle.setStrokeWidth(2);
+
         }
         return boundingBoxRectangle;
     }
@@ -94,26 +108,29 @@ public class BoundingBox {
                 .addListener((obs, oldv, newv) -> r.setX(newv.doubleValue() - offset));
         b.yProperty()
                 .addListener((obs, oldv, newv) -> r.setY(newv.doubleValue() - offset));
-        b.setOnMouseEntered(evt -> b.toFront());
-        b.setOnMousePressed(mousePressedHandler);
-        b.setOnMouseDragged(mouseDraggedHandler);
-//        r.xProperty()
-//                .addListener((obs, oldX, newX) -> {
-//                    b.setX(newX.doubleValue() + offset);
-//                    double newWidth = oldX.doubleValue() - newX.doubleValue() + b.getWidth() - offset;
-//                    b.setWidth(newWidth);
-//                });
-//        r.yProperty()
-//                .addListener((obs, oldv, newv) -> {
-//                    b.setY(newv.doubleValue() + offset);
-//                    double height = oldv.doubleValue() + newv.doubleValue() + b.getHeight() - offset;
-//                    b.setHeight(height);
-//                });
-        r.setOnMouseClicked(mousePressedHandler);
-        r.setOnMouseDragged(mouseDraggedHandler);
+        r.getStyleClass().add("mbari-bounding-box-control");
+        r.setStrokeWidth(1);
+        r.addEventHandler(MouseEvent.MOUSE_ENTERED, evt -> r.toFront());
+        r.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                evt -> r.toFront());
+        r.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                mousePressedHandler);
+        r.addEventHandler(MouseEvent.MOUSE_DRAGGED,
+                mouseDraggedHandler);
+        r.xProperty()
+                .addListener((obs, oldX, newX) -> {
+                    if (r == dragSource) {
+                        setLeftX(newX.doubleValue());
+                    }
+                });
+        r.yProperty()
+                .addListener((obs, oldY, newY) -> {
+                    if (r == dragSource) {
+                        setUpperY(newY.doubleValue());
+                    }
+                });
 
-
-        return r;
+        return r; // -- WORKING
     }
 
     private Rectangle buildUpperRightControlPoint(Rectangle b) {
@@ -122,15 +139,32 @@ public class BoundingBox {
                 b.getY() - offset,
                 square,
                 square);
+        r.getStyleClass().add("mbari-bounding-box-control");
+        r.setStrokeWidth(1);
         b.xProperty()
                 .addListener((obs, oldv, newv) -> r.setX(newv.doubleValue() + b.getWidth() - offset));
         b.yProperty()
                 .addListener((obs, oldv, newv) -> r.setY(newv.doubleValue() - offset));
         b.widthProperty()
                 .addListener((obs, oldv, newv) -> r.setX(newv.doubleValue() + b.getX() - offset));
-        b.setOnMouseEntered(evt -> b.toFront());
-
-        return r;
+        r.addEventHandler(MouseEvent.MOUSE_ENTERED, evt -> r.toFront());
+        r.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                mousePressedHandler);
+        r.addEventHandler(MouseEvent.MOUSE_DRAGGED,
+                mouseDraggedHandler);
+        r.xProperty()
+                .addListener((obs, oldX, newX) -> {
+                    if (r == dragSource) {
+                        setRightX(newX.doubleValue());
+                    }
+                });
+        r.yProperty()
+                .addListener((obs, oldY, newY) -> {
+                    if (r == dragSource) {
+                        setUpperY(newY.doubleValue());
+                    }
+                });
+        return r; // -- WORKING
     }
 
     private Rectangle buildLowerLeftControlPoint(Rectangle b) {
@@ -139,14 +173,32 @@ public class BoundingBox {
                 b.getY() + b.getHeight() - offset,
                 square,
                 square);
+        r.getStyleClass().add("mbari-bounding-box-control");
+        r.setStrokeWidth(1);
         b.xProperty()
                 .addListener((obs, oldv, newv) -> r.setX(newv.doubleValue() - offset));
         b.yProperty()
                 .addListener((obs, oldv, newv) -> r.setY(newv.doubleValue() + b.getHeight() - offset));
         b.heightProperty()
                 .addListener((obs, oldv, newv) -> r.setY(b.getY() + newv.doubleValue()  - offset));
-        b.setOnMouseEntered(evt -> b.toFront());
-        return r;
+        r.addEventHandler(MouseEvent.MOUSE_ENTERED, evt -> r.toFront());
+        r.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                mousePressedHandler);
+        r.addEventHandler(MouseEvent.MOUSE_DRAGGED,
+                mouseDraggedHandler);
+        r.xProperty()
+                .addListener((obs, oldX, newX) -> {
+                    if (r == dragSource) {
+                        setLeftX(newX.doubleValue());
+                    }
+                });
+        r.yProperty()
+                .addListener((obs, oldY, newY) -> {
+                    if (r == dragSource) {
+                        setLowerY(newY.doubleValue());
+                    }
+                });
+        return r; // -- WORKING
     }
 
     private Rectangle buildLowerRightControlPoint(Rectangle b) {
@@ -155,6 +207,8 @@ public class BoundingBox {
                 b.getY() + b.getHeight() - offset,
                 square,
                 square);
+        r.getStyleClass().add("mbari-bounding-box-control");
+        r.setStrokeWidth(1);
         b.xProperty()
                 .addListener((obs, oldv, newv) -> r.setX(newv.doubleValue() + b.getWidth() - offset));
         b.yProperty()
@@ -163,12 +217,51 @@ public class BoundingBox {
                 .addListener((obs, oldv, newv) -> r.setX(newv.doubleValue() + b.getX() - offset));
         b.heightProperty()
                 .addListener((obs, oldv, newv) -> r.setY(b.getY() + newv.doubleValue()  - offset));
-        b.setOnMouseEntered(evt -> b.toFront());
-
+        r.addEventHandler(MouseEvent.MOUSE_ENTERED, evt -> r.toFront());
+        r.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                mousePressedHandler);
+        r.addEventHandler(MouseEvent.MOUSE_DRAGGED,
+                mouseDraggedHandler);
+        r.xProperty()
+                .addListener((obs, oldX, newX) -> {
+                    if (r == dragSource) {
+                        setRightX(newX.doubleValue());
+                    }
+                });
+        r.yProperty()
+                .addListener((obs, oldY, newY) -> {
+                    if (r == dragSource) {
+                        setLowerY(newY.doubleValue());
+                    }
+                });
         return r;
-
 
     }
 
+    private void setUpperY(double y) {
+        double centerY = y + offset;
+        double boxHeight = boundingBoxRectangle.getHeight() + (boundingBoxRectangle.getY() - centerY);
+        getBoundingBoxRectangle().setY(centerY);
+        getBoundingBoxRectangle().setHeight(boxHeight);
+    }
+
+    private void setLowerY(double y) {
+        double centerY = y + offset;
+        double boxHeight = centerY - boundingBoxRectangle.getY();
+        getBoundingBoxRectangle().setHeight(boxHeight);
+    }
+
+    private void setLeftX(double x) {
+        double centerX = x + offset;
+        double boxWidth = boundingBoxRectangle.getWidth() + (boundingBoxRectangle.getX() - centerX);
+        getBoundingBoxRectangle().setX(centerX);
+        getBoundingBoxRectangle().setWidth(boxWidth);
+    }
+
+    private void setRightX(double x) {
+        double centerX = x + offset;
+        double boxWidth = centerX - boundingBoxRectangle.getX();
+        getBoundingBoxRectangle().setWidth(boxWidth);
+    }
 
 }
