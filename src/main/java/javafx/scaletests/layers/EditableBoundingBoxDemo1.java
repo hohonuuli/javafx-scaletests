@@ -8,7 +8,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class BoundingBoxDemo1 extends Application {
+public class EditableBoundingBoxDemo1 extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         AnchorPane pane = new AnchorPane();
@@ -16,8 +16,8 @@ public class BoundingBoxDemo1 extends Application {
 
         root.setCenter(pane);
 
-        BoundingBox box1 = new BoundingBox(10, 10, 40, 60);
-        BoundingBox box2 = new BoundingBox(200, 100, 50, 73);
+        EditableBoundingBox box1 = new EditableBoundingBox(10, 10, 40, 60);
+        EditableBoundingBox box2 = new EditableBoundingBox(200, 100, 50, 73);
         box1.setColor(Color.DEEPSKYBLUE);
         pane.getChildren().addAll(box1.getShapes());
         box1.getShapes().forEach(r ->

@@ -9,17 +9,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class BoundingBox {
+public class EditableBoundingBox {
 
-    // TODO
-    private double x;
-    private double y;
-    private double width;
-    private double height;
     private int offset = 5;
     private int square = offset * 2 + 1;
 
-    private Rectangle boundingBoxRectangle;
+    private final Rectangle boundingBoxRectangle;
     private List<Rectangle> controlPoints;
 
     // Drag variables
@@ -48,11 +43,14 @@ public class BoundingBox {
     };
 
 
-    public BoundingBox(double x, double y, double width, double height) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
+    public EditableBoundingBox(double x, double y, double width, double height) {
+        boundingBoxRectangle = new Rectangle(x, y, width, height);
+        boundingBoxRectangle.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                mousePressedHandler);
+        boundingBoxRectangle.addEventHandler(MouseEvent.MOUSE_DRAGGED,
+                mouseDraggedHandler);
+        boundingBoxRectangle.getStyleClass().add("mbari-bounding-box");
+        boundingBoxRectangle.setStrokeWidth(2);
     }
 
     public void setColor(Color color) {
@@ -72,16 +70,6 @@ public class BoundingBox {
     }
 
     public Rectangle getBoundingBoxRectangle() {
-        if (boundingBoxRectangle == null) {
-            boundingBoxRectangle = new Rectangle(x, y, width, height);
-            boundingBoxRectangle.addEventHandler(MouseEvent.MOUSE_PRESSED,
-                    mousePressedHandler);
-            boundingBoxRectangle.addEventHandler(MouseEvent.MOUSE_DRAGGED,
-                    mouseDraggedHandler);
-            boundingBoxRectangle.getStyleClass().add("mbari-bounding-box");
-            boundingBoxRectangle.setStrokeWidth(2);
-
-        }
         return boundingBoxRectangle;
     }
 
@@ -236,27 +224,27 @@ public class BoundingBox {
     private void setUpperY(double y) {
         double centerY = y + offset;
         double boxHeight = boundingBoxRectangle.getHeight() + (boundingBoxRectangle.getY() - centerY);
-        getBoundingBoxRectangle().setY(centerY);
-        getBoundingBoxRectangle().setHeight(boxHeight);
+        boundingBoxRectangle.setY(centerY);
+        boundingBoxRectangle.setHeight(boxHeight);
     }
 
     private void setLowerY(double y) {
         double centerY = y + offset;
         double boxHeight = centerY - boundingBoxRectangle.getY();
-        getBoundingBoxRectangle().setHeight(boxHeight);
+        boundingBoxRectangle.setHeight(boxHeight);
     }
 
     private void setLeftX(double x) {
         double centerX = x + offset;
         double boxWidth = boundingBoxRectangle.getWidth() + (boundingBoxRectangle.getX() - centerX);
-        getBoundingBoxRectangle().setX(centerX);
-        getBoundingBoxRectangle().setWidth(boxWidth);
+        boundingBoxRectangle.setX(centerX);
+        boundingBoxRectangle.setWidth(boxWidth);
     }
 
     private void setRightX(double x) {
         double centerX = x + offset;
         double boxWidth = centerX - boundingBoxRectangle.getX();
-        getBoundingBoxRectangle().setWidth(boxWidth);
+        boundingBoxRectangle.setWidth(boxWidth);
     }
 
 }
